@@ -1,0 +1,25 @@
+{
+  "name": "process-image",
+  "version": "1.0.0",
+  "description": "Lambda: SQS-triggered image processing with Rekognition + Bedrock",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest --coverage",
+    "test:watch": "jest --watch"
+  },
+  "dependencies": {
+    "@aws-sdk/client-rekognition": "^3.600.0",
+    "@aws-sdk/client-bedrock-runtime": "^3.600.0",
+    "@aws-sdk/client-dynamodb": "^3.600.0",
+    "@aws-sdk/lib-dynamodb": "^3.600.0"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "aws-sdk-client-mock": "^4.0.0"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "coverageDirectory": "coverage",
+    "collectCoverageFrom": ["*.js", "!jest.config.js"]
+  }
+}

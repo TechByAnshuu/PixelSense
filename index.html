@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="PixelSense — AI-powered cloud image analysis platform. Upload any image and get instant object detection, face recognition, OCR, and AI-generated insights." />
+  <meta name="theme-color" content="#0A0A0A" />
+  <title>PixelSense — AI Image Intelligence Platform</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg:#0A0A0A; --bg-card:#111111; --bg-card-2:#141414;
+      --brand:#E8352A; --brand-bright:#F03B30;
+      --glow-1:#FF3B2E; --glow-2:#FF7A3D; --glow-3:#E91E8C;
+      --text-head:#FFFFFF; --text-body:#9A9A9A; --text-nav:#E5E5E5; --text-dim:#616161;
+      --border:rgba(255,255,255,0.07);
+      --radius-pill:9999px; --radius-phone:28px; --radius-card:20px;
+      --transition:200ms ease;
+    }
+    *, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
+    html { scroll-behavior:smooth; }
+    body { font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif; background:var(--bg); color:var(--text-body); line-height:1.6; overflow-x:hidden; -webkit-font-smoothing:antialiased; }
+    img { display:block; max-width:100%; }
+    a { text-decoration:none; color:inherit; }
+
+    /* BG GRID */
+    .bg-grid { position:fixed; inset:0; z-index:-1; background-image:linear-gradient(rgba(255,255,255,0.016) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.016) 1px,transparent 1px); background-size:60px 60px; pointer-events:none; }
+    .bg-grid::before { content:''; position:absolute; top:0; left:0; right:0; height:300px; background:linear-gradient(to bottom,rgba(232,53,42,0.04),transparent); }
+
+    /* NAVBAR */
+    .navbar { position:fixed; top:0; left:0; right:0; z-index:1000; display:flex; align-items:center; justify-content:space-between; padding:0 48px; height:68px; background:rgba(10,10,10,0.72); backdrop-filter:blur(18px) saturate(160%); -webkit-backdrop-filter:blur(18px) saturate(160%); border-bottom:1px solid var(--border); transition:background var(--transition); }
+    .navbar.scrolled { background:rgba(10,10,10,0.92); border-bottom-color:rgba(255,255,255,0.10); }
+    .nav-logo { display:flex; align-items:center; gap:10px; flex-shrink:0; }
+    .nav-logo-mark { width:34px; height:34px; background:linear-gradient(135deg,var(--brand) 0%,var(--glow-2) 100%); border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:16px; font-weight:900; color:#fff; letter-spacing:-0.5px; box-shadow:0 0 18px rgba(232,53,42,0.55); flex-shrink:0; }
+    .nav-logo-text { font-size:18px; font-weight:800; color:var(--text-head); letter-spacing:-0.5px; }
+    .nav-logo-text span { color:var(--brand); }
+    .nav-links { display:flex; align-items:center; gap:36px; list-style:none; position:absolute; left:50%; transform:translateX(-50%); }
+    .nav-links a { font-size:14px; font-weight:500; color:var(--text-nav); letter-spacing:0.01em; transition:color var(--transition); }
+    .nav-links a:hover { color:#fff; }
+    .nav-cta { display:flex; align-items:center; gap:12px; flex-shrink:0; }
+    .btn-pill { display:inline-flex; align-items:center; gap:7px; padding:9px 20px; border-radius:var(--radius-pill); font-family:inherit; font-size:14px; font-weight:600; cursor:pointer; border:none; transition:transform var(--transition),opacity var(--transition),box-shadow var(--transition); white-space:nowrap; }
+    .btn-pill:hover { transform:scale(1.04); }
+    .btn-ghost { background:transparent; color:var(--text-nav); border:1px solid var(--border); }
+    .btn-ghost:hover { border-color:rgba(255,255,255,0.22); color:#fff; }
+    .btn-red { background:var(--brand); color:#fff; box-shadow:0 0 22px rgba(232,53,42,0.45); }
+    .btn-red:hover { box-shadow:0 0 34px rgba(240,59,48,0.65); }
+    .btn-lg { padding:14px 32px; font-size:16px; }
+
+    /* HERO */
+    .hero { min-height:100vh; display:flex; align-items:center; padding-top:68px; position:relative; overflow:hidden; }
+    .hero::before { content:''; position:absolute; top:-10%; right:-5%; width:70%; height:120%; background:conic-gradient(from 200deg at 60% 40%,rgba(255,59,46,0.22),rgba(255,122,61,0.18),rgba(233,30,140,0.16),transparent 60%); filter:blur(80px); pointer-events:none; z-index:0; }
+    .hero::after { content:''; position:absolute; bottom:-20%; right:20%; width:40%; height:60%; background:radial-gradient(ellipse,rgba(255,59,46,0.14) 0%,transparent 70%); filter:blur(60px); pointer-events:none; z-index:0; }
+    .hero-inner { max-width:1240px; margin:0 auto; padding:80px 48px 100px; display:grid; grid-template-columns:45% 55%; align-items:center; gap:0; width:100%; position:relative; z-index:1; }
+    .hero-left { display:flex; flex-direction:column; gap:28px; }
+    .hero-badge { display:inline-flex; align-items:center; gap:8px; padding:7px 16px; background:rgba(232,53,42,0.12); border:1px solid rgba(232,53,42,0.28); border-radius:var(--radius-pill); font-size:12px; font-weight:600; color:var(--brand-bright); letter-spacing:0.06em; text-transform:uppercase; width:fit-content; }
+    .hero-badge-dot { width:6px; height:6px; background:var(--brand); border-radius:50%; animation:pulse-dot 2s ease-in-out infinite; }
+    @keyframes pulse-dot { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.5;transform:scale(0.7)} }
+    .hero-headline { font-size:clamp(48px,6vw,88px); font-weight:900; color:var(--text-head); line-height:0.95; letter-spacing:-0.03em; }
+    .hero-headline .accent { color:var(--brand); }
+    .hero-headline .line-2 { display:block; background:linear-gradient(90deg,#fff 30%,rgba(255,255,255,0.55) 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+    .hero-body { font-size:17px; color:var(--text-body); line-height:1.65; max-width:420px; }
+    .hero-body strong { color:rgba(255,255,255,0.7); font-weight:500; }
+    .store-badges { display:flex; align-items:center; gap:14px; flex-wrap:wrap; }
+    .store-badge { display:inline-flex; align-items:center; gap:10px; padding:11px 20px; background:#111; border:1px solid rgba(255,255,255,0.12); border-radius:var(--radius-pill); color:#fff; font-size:13px; font-weight:600; cursor:pointer; transition:transform var(--transition),border-color var(--transition),background var(--transition); }
+    .store-badge:hover { transform:scale(1.04); border-color:rgba(255,255,255,0.25); background:#1a1a1a; }
+    .store-badge-icon { width:20px; height:20px; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+    .apple-icon svg { width:18px; height:18px; fill:#fff; }
+    .play-icon svg { width:18px; height:18px; }
+    .store-badge-meta { display:flex; flex-direction:column; gap:1px; }
+    .store-badge-label { font-size:10px; color:var(--text-body); font-weight:400; text-transform:uppercase; letter-spacing:0.05em; }
+    .store-badge-name { font-size:14px; color:#fff; font-weight:700; }
+    .hero-stats { display:flex; gap:36px; padding-top:8px; }
+    .hero-stat-val { font-size:26px; font-weight:800; color:#fff; letter-spacing:-0.03em; line-height:1; }
+    .hero-stat-val span { color:var(--brand); }
+    .hero-stat-label { font-size:12px; color:var(--text-dim); margin-top:4px; text-transform:uppercase; letter-spacing:0.06em; }
+
+    /* PHONES */
+    .hero-right { position:relative; display:flex; align-items:center; justify-content:center; height:680px; }
+    .hero-glow { position:absolute; width:85%; height:85%; top:50%; left:50%; transform:translate(-50%,-50%) rotate(-15deg); background:linear-gradient(135deg,rgba(255,59,46,0.35) 0%,rgba(255,122,61,0.28) 40%,rgba(233,30,140,0.22) 100%); filter:blur(72px); border-radius:50%; z-index:0; pointer-events:none; }
+    .phone-stack { position:relative; width:340px; height:600px; z-index:1; }
+    .phone { position:absolute; width:220px; height:440px; background:#0f0f0f; border-radius:var(--radius-phone); border:1.5px solid rgba(255,255,255,0.10); overflow:hidden; box-shadow:0 0 0 1px rgba(255,255,255,0.04),0 32px 80px rgba(0,0,0,0.65),inset 0 1px 0 rgba(255,255,255,0.08); }
+    .phone-screen { width:100%; height:100%; position:relative; overflow:hidden; }
+    .phone-notch { position:absolute; top:10px; left:50%; transform:translateX(-50%); width:80px; height:18px; background:#000; border-radius:10px; z-index:10; }
+    .phone-1 { left:0; top:80px; transform:rotate(-9deg); z-index:1; }
+    .phone-2 { left:50%; top:20px; transform:translateX(-50%) rotate(2deg); z-index:3; width:236px; height:470px; }
+    .phone-3 { right:0; top:100px; transform:rotate(9deg); z-index:2; }
+
+    /* Screen: Upload */
+    .screen-upload { width:100%; height:100%; background:linear-gradient(175deg,#0d0d0d 0%,#111 100%); display:flex; flex-direction:column; align-items:center; padding:42px 14px 18px; gap:12px; }
+    .screen-title { font-size:10px; font-weight:700; color:#fff; letter-spacing:0.08em; text-transform:uppercase; }
+    .upload-zone { width:100%; flex:1; border:1.5px dashed rgba(232,53,42,0.5); border-radius:16px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:10px; background:rgba(232,53,42,0.04); position:relative; overflow:hidden; }
+    .upload-zone::before { content:''; position:absolute; inset:0; background:radial-gradient(ellipse at 50% 50%,rgba(232,53,42,0.12) 0%,transparent 70%); }
+    .upload-icon { width:36px; height:36px; background:rgba(232,53,42,0.15); border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:18px; }
+    .upload-label { font-size:8px; color:var(--text-body); text-align:center; line-height:1.5; }
+    .screen-btn { width:100%; height:34px; background:var(--brand); border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:9px; font-weight:700; color:#fff; letter-spacing:0.05em; text-transform:uppercase; box-shadow:0 4px 20px rgba(232,53,42,0.45); flex-shrink:0; }
+
+    /* Screen: Results */
+    .screen-results { width:100%; height:100%; background:#0d0d0d; display:flex; flex-direction:column; overflow:hidden; }
+    .screen-img-placeholder { width:100%; height:45%; background:linear-gradient(135deg,#1e1e2e 0%,#2d1b69 50%,#11998e 100%); position:relative; overflow:hidden; flex-shrink:0; }
+    .tag-overlay { position:absolute; inset:0; padding:12px 8px 8px; display:flex; flex-wrap:wrap; align-content:flex-start; gap:4px; }
+    .ai-tag { padding:3px 7px; background:rgba(232,53,42,0.85); border-radius:5px; font-size:6.5px; font-weight:700; color:#fff; letter-spacing:0.04em; text-transform:uppercase; backdrop-filter:blur(4px); }
+    .ai-tag.blue { background:rgba(52,152,219,0.85); }
+    .ai-tag.green { background:rgba(39,174,96,0.85); }
+    .ai-tag.amber { background:rgba(243,156,18,0.85); }
+    .screen-results-body { flex:1; padding:12px 12px 8px; display:flex; flex-direction:column; gap:8px; overflow:hidden; }
+    .result-item { display:flex; align-items:center; justify-content:space-between; padding:7px 10px; background:rgba(255,255,255,0.04); border-radius:8px; }
+    .result-label { font-size:7.5px; color:#fff; font-weight:600; }
+    .result-conf { font-size:7px; color:var(--brand); font-weight:700; }
+    .result-bar-wrap { width:100%; height:2.5px; background:rgba(255,255,255,0.07); border-radius:2px; margin-top:4px; }
+    .result-bar { height:100%; background:var(--brand); border-radius:2px; }
+
+    /* Screen: History */
+    .screen-history { width:100%; height:100%; background:#0d0d0d; display:flex; flex-direction:column; padding:42px 0 0; }
+    .screen-history-header { padding:0 12px 10px; font-size:10px; font-weight:700; color:#fff; letter-spacing:0.06em; text-transform:uppercase; border-bottom:1px solid rgba(255,255,255,0.06); }
+    .history-list { display:flex; flex-direction:column; gap:1px; margin-top:6px; }
+    .history-item { display:flex; align-items:center; gap:8px; padding:7px 12px; }
+    .history-thumb { width:30px; height:30px; border-radius:7px; flex-shrink:0; }
+    .thumb-1 { background:linear-gradient(135deg,#2d1b69,#11998e); }
+    .thumb-2 { background:linear-gradient(135deg,#e52d27,#b31217); }
+    .thumb-3 { background:linear-gradient(135deg,#4e54c8,#8f94fb); }
+    .thumb-4 { background:linear-gradient(135deg,#f7971e,#ffd200); }
+    .history-info { flex:1; }
+    .history-name { font-size:7.5px; color:#fff; font-weight:600; margin-bottom:2px; }
+    .history-tags { font-size:6.5px; color:var(--text-dim); }
+    .history-status { font-size:6px; padding:2px 6px; background:rgba(39,174,96,0.15); color:#27ae60; border-radius:4px; font-weight:700; text-transform:uppercase; }
+
+    .hero-wordmark { position:absolute; bottom:-30px; right:-40px; font-size:clamp(80px,12vw,160px); font-weight:900; color:transparent; -webkit-text-stroke:1px rgba(255,255,255,0.04); letter-spacing:-0.04em; pointer-events:none; z-index:0; user-select:none; white-space:nowrap; }
+
+    /* TECH STRIP */
+    .tech-strip { padding:0 48px 80px; }
+    .tech-strip-inner { max-width:1240px; margin:0 auto; }
+    .tech-label-row { display:flex; align-items:center; gap:20px; margin-bottom:20px; }
+    .tech-label { font-size:11px; font-weight:600; color:var(--text-dim); letter-spacing:0.08em; text-transform:uppercase; white-space:nowrap; }
+    .tech-line { flex:1; height:1px; background:var(--border); }
+    .tech-pills { display:flex; gap:10px; flex-wrap:wrap; }
+    .tech-pill { padding:7px 16px; background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.08); border-radius:var(--radius-pill); font-size:12px; font-weight:600; color:rgba(255,255,255,0.55); transition:color var(--transition),border-color var(--transition),background var(--transition); cursor:default; }
+    .tech-pill:hover { color:rgba(255,255,255,0.85); border-color:rgba(255,255,255,0.18); background:rgba(255,255,255,0.06); }
+    .tech-pill.active { background:rgba(232,53,42,0.10); border-color:rgba(232,53,42,0.28); color:var(--brand-bright); }
+    .divider { max-width:1240px; margin:0 auto; height:1px; background:var(--border); }
+
+    /* SECTIONS */
+    .section { padding:120px 48px; max-width:1240px; margin:0 auto; }
+    .section-label { font-size:11px; font-weight:700; color:var(--brand); letter-spacing:0.12em; text-transform:uppercase; margin-bottom:14px; }
+    .section-title { font-size:clamp(34px,4vw,52px); font-weight:900; color:var(--text-head); line-height:1.05; letter-spacing:-0.03em; max-width:600px; }
+    .section-title .accent { color:var(--brand); }
+    .section-sub { font-size:17px; color:var(--text-body); max-width:480px; line-height:1.65; margin-top:16px; }
+
+    /* STEPS */
+    .steps-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:20px; margin-top:64px; }
+    .step-card { background:var(--bg-card); border:1px solid var(--border); border-radius:var(--radius-card); padding:32px 24px; position:relative; overflow:hidden; transition:border-color var(--transition),transform var(--transition); }
+    .step-card::before { content:''; position:absolute; top:0; left:0; right:0; height:2px; background:linear-gradient(90deg,var(--brand),var(--glow-2)); opacity:0; transition:opacity var(--transition); }
+    .step-card:hover { border-color:rgba(232,53,42,0.25); transform:translateY(-4px); }
+    .step-card:hover::before { opacity:1; }
+    .step-num { font-size:11px; font-weight:700; color:var(--brand); letter-spacing:0.08em; margin-bottom:20px; }
+    .step-icon { width:48px; height:48px; background:rgba(232,53,42,0.10); border-radius:13px; display:flex; align-items:center; justify-content:center; font-size:22px; margin-bottom:20px; }
+    .step-title { font-size:16px; font-weight:700; color:var(--text-head); margin-bottom:10px; letter-spacing:-0.01em; }
+    .step-desc { font-size:14px; color:var(--text-body); line-height:1.6; }
+
+    /* FEATURES */
+    .features-section { padding:0 48px 120px; max-width:1240px; margin:0 auto; }
+    .features-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:20px; margin-top:64px; }
+    .feature-card { background:var(--bg-card); border:1px solid var(--border); border-radius:var(--radius-card); padding:36px 28px; transition:border-color var(--transition),transform var(--transition); }
+    .feature-card:hover { border-color:rgba(232,53,42,0.2); transform:translateY(-3px); }
+    .feature-icon-wrap { width:52px; height:52px; border-radius:15px; display:flex; align-items:center; justify-content:center; font-size:24px; margin-bottom:22px; }
+    .icon-red { background:rgba(232,53,42,0.12); }
+    .icon-orange { background:rgba(255,122,61,0.12); }
+    .icon-pink { background:rgba(233,30,140,0.12); }
+    .icon-blue { background:rgba(52,152,219,0.12); }
+    .icon-green { background:rgba(39,174,96,0.12); }
+    .icon-amber { background:rgba(243,156,18,0.12); }
+    .feature-title { font-size:17px; font-weight:700; color:var(--text-head); margin-bottom:10px; letter-spacing:-0.01em; }
+    .feature-desc { font-size:14.5px; color:var(--text-body); line-height:1.6; }
+    .feature-card.wide { grid-column:span 2; display:grid; grid-template-columns:1fr 1fr; gap:40px; align-items:center; }
+    .feature-card.wide .feature-visual { background:var(--bg-card-2); border-radius:14px; height:180px; position:relative; overflow:hidden; }
+    .feature-card.wide .feature-visual::after { content:''; position:absolute; inset:0; background:linear-gradient(135deg,rgba(232,53,42,0.15),rgba(255,122,61,0.10),rgba(233,30,140,0.08)); }
+
+    /* ARCH FLOW */
+    .arch-flow { display:flex; align-items:center; gap:8px; flex-wrap:wrap; margin-top:28px; }
+    .arch-node { padding:7px 14px; background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.08); border-radius:8px; font-size:11px; font-weight:600; color:rgba(255,255,255,0.7); }
+    .arch-node.active { background:rgba(232,53,42,0.12); border-color:rgba(232,53,42,0.3); color:var(--brand-bright); }
+    .arch-arrow { color:var(--text-dim); font-size:12px; }
+
+    /* CTA */
+    .cta-section { padding:0 48px 120px; }
+    .cta-inner { max-width:1240px; margin:0 auto; background:var(--bg-card); border:1px solid var(--border); border-radius:32px; padding:80px; position:relative; overflow:hidden; text-align:center; }
+    .cta-inner::before { content:''; position:absolute; top:-40%; left:50%; transform:translateX(-50%); width:60%; height:80%; background:radial-gradient(ellipse,rgba(232,53,42,0.18) 0%,transparent 70%); filter:blur(50px); pointer-events:none; }
+    .cta-inner::after { content:''; position:absolute; bottom:-30%; right:-10%; width:40%; height:60%; background:radial-gradient(ellipse,rgba(233,30,140,0.12) 0%,transparent 70%); filter:blur(60px); pointer-events:none; }
+    .cta-inner > * { position:relative; z-index:1; }
+    .cta-badge { display:inline-flex; align-items:center; gap:6px; padding:6px 14px; background:rgba(232,53,42,0.1); border:1px solid rgba(232,53,42,0.25); border-radius:var(--radius-pill); font-size:11px; font-weight:700; color:var(--brand-bright); letter-spacing:0.08em; text-transform:uppercase; margin-bottom:28px; }
+    .cta-title { font-size:clamp(36px,4.5vw,58px); font-weight:900; color:var(--text-head); line-height:1.0; letter-spacing:-0.03em; margin-bottom:20px; }
+    .cta-title .accent { color:var(--brand); }
+    .cta-sub { font-size:18px; color:var(--text-body); max-width:460px; margin:0 auto 40px; line-height:1.6; }
+    .cta-buttons { display:flex; align-items:center; justify-content:center; gap:14px; flex-wrap:wrap; }
+
+    /* FOOTER */
+    footer { border-top:1px solid var(--border); padding:48px; }
+    .footer-inner { max-width:1240px; margin:0 auto; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:24px; }
+    .footer-copy { font-size:13px; color:var(--text-dim); }
+    .footer-links { display:flex; gap:28px; list-style:none; }
+    .footer-links a { font-size:13px; color:var(--text-dim); transition:color var(--transition); }
+    .footer-links a:hover { color:var(--text-nav); }
+
+    /* ANIMATIONS */
+    .fade-up { opacity:0; transform:translateY(28px); transition:opacity 0.6s ease,transform 0.6s ease; }
+    .fade-up.visible { opacity:1; transform:translateY(0); }
+    .fade-up-delay-1 { transition-delay:0.1s; }
+    .fade-up-delay-2 { transition-delay:0.2s; }
+    .fade-up-delay-3 { transition-delay:0.3s; }
+
+    /* RESPONSIVE */
+    @media(max-width:1024px) {
+      .steps-grid { grid-template-columns:repeat(2,1fr); }
+      .features-grid { grid-template-columns:repeat(2,1fr); }
+      .feature-card.wide { grid-column:span 1; grid-template-columns:1fr; }
+      .feature-card.wide .feature-visual { height:120px; }
+    }
+    @media(max-width:900px) {
+      .navbar { padding:0 24px; }
+      .nav-links { display:none; }
+      .hero-inner { grid-template-columns:1fr; padding:80px 24px 60px; text-align:center; }
+      .hero-left { align-items:center; }
+      .hero-body { max-width:100%; }
+      .hero-stats { justify-content:center; }
+      .store-badges { justify-content:center; }
+      .hero-right { height:420px; margin-top:40px; }
+      .phone-stack { transform:scale(0.85); }
+      .section, .features-section { padding:80px 24px; }
+      .cta-section { padding:0 24px 80px; }
+      .cta-inner { padding:60px 28px; }
+      .tech-strip { padding:0 24px 60px; }
+      footer { padding:40px 24px; }
+      .footer-inner { flex-direction:column; align-items:flex-start; gap:20px; }
+    }
+    @media(max-width:600px) {
+      .steps-grid { grid-template-columns:1fr; }
+      .features-grid { grid-template-columns:1fr; }
+      .hero-headline { font-size:42px; }
+      .phone-stack { transform:scale(0.7); }
+      .hero-right { height:320px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-grid" aria-hidden="true"></div>
+
+  <!-- NAVBAR -->
+  <nav class="navbar" id="navbar" role="navigation" aria-label="Main navigation">
+    <a href="#" class="nav-logo" aria-label="PixelSense home">
+      <div class="nav-logo-mark" aria-hidden="true">PS</div>
+      <span class="nav-logo-text">Pixel<span>Sense</span></span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#how-it-works">How It Works</a></li>
+      <li><a href="#features">Features</a></li>
+      <li><a href="#tech">Tech Stack</a></li>
+      <li><a href="#about">About</a></li>
+    </ul>
+    <div class="nav-cta">
+      <a href="#" class="btn-pill btn-ghost">Sign In</a>
+      <a href="#get-started" class="btn-pill btn-red">Get Started</a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero" id="home" aria-label="Hero section">
+    <div class="hero-wordmark" aria-hidden="true">PixelSense</div>
+    <div class="hero-inner">
+      <div class="hero-left">
+        <div class="hero-badge">
+          <div class="hero-badge-dot" aria-hidden="true"></div>
+          Powered by AWS Rekognition &amp; Bedrock
+        </div>
+        <h1 class="hero-headline">
+          <span class="accent">See</span> Beyond<br/>
+          <span class="line-2">Every Pixel.</span>
+        </h1>
+        <p class="hero-body">
+          Upload any image and <strong>PixelSense</strong> instantly returns object detection, face &amp; celebrity recognition, OCR text extraction, and an AI-generated plain-language summary &mdash; all serverless, all secure.
+        </p>
+        <div class="store-badges">
+          <a href="#" class="store-badge" id="ios-badge" aria-label="Download on App Store">
+            <span class="store-badge-icon apple-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98l-.09.06c-.22.15-2.22 1.3-2.2 3.88.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.23 2.64M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/>
+              </svg>
+            </span>
+            <div class="store-badge-meta">
+              <span class="store-badge-label">Download on</span>
+              <span class="store-badge-name">App Store</span>
+            </div>
+          </a>
+          <a href="#" class="store-badge" id="android-badge" aria-label="Get it on Google Play">
+            <span class="store-badge-icon play-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="none">
+                <defs>
+                  <linearGradient id="gp" x1="0" y1="0" x2="1" y2="1">
+                    <stop offset="0%" stop-color="#00C6FF"/>
+                    <stop offset="50%" stop-color="#00E676"/>
+                    <stop offset="100%" stop-color="#FFAB00"/>
+                  </linearGradient>
+                </defs>
+                <path d="M3 20.5v-17c0-.83.94-1.3 1.6-.8l14.4 8.5c.6.36.6 1.24 0 1.6L4.6 21.3C3.94 21.8 3 21.33 3 20.5z" fill="url(#gp)"/>
+              </svg>
+            </span>
+            <div class="store-badge-meta">
+              <span class="store-badge-label">Get it on</span>
+              <span class="store-badge-name">Google Play</span>
+            </div>
+          </a>
+        </div>
+        <div class="hero-stats" role="list" aria-label="Platform statistics">
+          <div class="hero-stat" role="listitem">
+            <div class="hero-stat-val">99<span>.9%</span></div>
+            <div class="hero-stat-label">Uptime SLA</div>
+          </div>
+          <div class="hero-stat" role="listitem">
+            <div class="hero-stat-val">&lt;<span>2s</span></div>
+            <div class="hero-stat-label">Avg. Analysis Time</div>
+          </div>
+          <div class="hero-stat" role="listitem">
+            <div class="hero-stat-val">4<span>+</span></div>
+            <div class="hero-stat-label">AI Capabilities</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-right" aria-hidden="true">
+        <div class="hero-glow"></div>
+        <div class="phone-stack">
+          <div class="phone phone-1">
+            <div class="phone-notch"></div>
+            <div class="phone-screen">
+              <div class="screen-upload">
+                <span class="screen-title">Upload Image</span>
+                <div class="upload-zone">
+                  <div class="upload-icon">&#128247;</div>
+                  <div class="upload-label">Tap or drag image<br/>to begin analysis</div>
+                </div>
+                <div class="screen-btn">Analyze with AI &#8594;</div>
+                <div style="display:flex;gap:5px;justify-content:center">
+                  <div style="width:28px;height:28px;border-radius:6px;background:linear-gradient(135deg,#2d1b69,#11998e)"></div>
+                  <div style="width:28px;height:28px;border-radius:6px;background:linear-gradient(135deg,#e52d27,#b31217)"></div>
+                  <div style="width:28px;height:28px;border-radius:6px;background:linear-gradient(135deg,#4e54c8,#8f94fb)"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="phone phone-2">
+            <div class="phone-notch"></div>
+            <div class="phone-screen">
+              <div class="screen-results">
+                <div class="screen-img-placeholder">
+                  <div style="width:100%;height:100%;background:linear-gradient(135deg,#0f3460 0%,#16213e 50%,#2d1b69 100%);display:flex;align-items:center;justify-content:center">
+                    <svg width="40" height="40" viewBox="0 0 40 40" fill="none"><rect width="40" height="40" rx="8" fill="rgba(255,255,255,0.05)"/><path d="M8 28l9-9 5 5 5-7 9 11H8z" fill="rgba(255,255,255,0.2)"/><circle cx="27" cy="14" r="4" fill="rgba(255,255,255,0.2)"/></svg>
+                  </div>
+                  <div class="tag-overlay">
+                    <span class="ai-tag">Mountain 98%</span>
+                    <span class="ai-tag blue">Sky 96%</span>
+                    <span class="ai-tag green">Person 91%</span>
+                    <span class="ai-tag amber">Forest 89%</span>
+                  </div>
+                </div>
+                <div class="screen-results-body">
+                  <div style="font-size:8px;color:rgba(255,255,255,0.5);font-weight:600;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:2px">AI Analysis Results</div>
+                  <div class="result-item">
+                    <div><div class="result-label">Object Detection</div><div class="result-bar-wrap"><div class="result-bar" style="width:94%"></div></div></div>
+                    <div class="result-conf">94%</div>
+                  </div>
+                  <div class="result-item">
+                    <div><div class="result-label">Face Recognition</div><div class="result-bar-wrap"><div class="result-bar" style="width:78%;background:#FF7A3D"></div></div></div>
+                    <div class="result-conf" style="color:#FF7A3D">78%</div>
+                  </div>
+                  <div class="result-item">
+                    <div><div class="result-label">OCR Text Found</div><div class="result-bar-wrap"><div class="result-bar" style="width:62%;background:#E91E8C"></div></div></div>
+                    <div class="result-conf" style="color:#E91E8C">62%</div>
+                  </div>
+                  <div style="margin-top:4px;padding:8px 10px;background:rgba(232,53,42,0.08);border-radius:8px;border:1px solid rgba(232,53,42,0.2)">
+                    <div style="font-size:6.5px;color:#E8352A;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:3px">AI Summary</div>
+                    <div style="font-size:7px;color:rgba(255,255,255,0.65);line-height:1.5">A scenic mountain landscape with two hikers near a turquoise alpine lake surrounded by conifers...</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="phone phone-3">
+            <div class="phone-notch"></div>
+            <div class="phone-screen">
+              <div class="screen-history">
+                <div class="screen-history-header">Analysis History</div>
+                <div class="history-list">
+                  <div class="history-item">
+                    <div class="history-thumb thumb-1"></div>
+                    <div class="history-info"><div class="history-name">mountain_trail.jpg</div><div class="history-tags">Mountain, Sky, Person</div></div>
+                    <div class="history-status">Done</div>
+                  </div>
+                  <div class="history-item">
+                    <div class="history-thumb thumb-2"></div>
+                    <div class="history-info"><div class="history-name">portrait_photo.png</div><div class="history-tags">Face (2), Celebrity</div></div>
+                    <div class="history-status">Done</div>
+                  </div>
+                  <div class="history-item">
+                    <div class="history-thumb thumb-3"></div>
+                    <div class="history-info"><div class="history-name">city_skyline.jpg</div><div class="history-tags">Building, Text, Sky</div></div>
+                    <div class="history-status">Done</div>
+                  </div>
+                  <div class="history-item">
+                    <div class="history-thumb thumb-4"></div>
+                    <div class="history-info"><div class="history-name">product_scan.png</div><div class="history-tags">OCR: 24 words found</div></div>
+                    <div class="history-status" style="background:rgba(243,156,18,0.12);color:#f39c12">Wait</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TECH STRIP -->
+  <div class="tech-strip" id="tech">
+    <div class="tech-strip-inner">
+      <div class="tech-label-row">
+        <span class="tech-label">Powered by</span>
+        <div class="tech-line"></div>
+      </div>
+      <div class="tech-pills" role="list" aria-label="Technology stack">
+        <span class="tech-pill active">AWS Rekognition</span>
+        <span class="tech-pill active">Amazon Bedrock</span>
+        <span class="tech-pill">AWS Lambda</span>
+        <span class="tech-pill">Amazon S3</span>
+        <span class="tech-pill">Amazon Cognito</span>
+        <span class="tech-pill">Amazon SQS</span>
+        <span class="tech-pill">DynamoDB</span>
+        <span class="tech-pill">API Gateway</span>
+        <span class="tech-pill">CloudFront</span>
+        <span class="tech-pill">React.js</span>
+        <span class="tech-pill">Node.js</span>
+        <span class="tech-pill">Terraform</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- HOW IT WORKS -->
+  <section class="section" id="how-it-works" aria-label="How it works">
+    <div class="section-label">How It Works</div>
+    <h2 class="section-title">From upload to <span class="accent">insight</span> in seconds</h2>
+    <p class="section-sub">A fully serverless, event-driven pipeline processes your images with zero server management on your end.</p>
+    <div class="steps-grid">
+      <div class="step-card fade-up">
+        <div class="step-num">01</div>
+        <div class="step-icon">&#128272;</div>
+        <h3 class="step-title">Authenticate Securely</h3>
+        <p class="step-desc">Sign in via Amazon Cognito. Every request is verified with a scoped JWT &mdash; your identity is always protected.</p>
+      </div>
+      <div class="step-card fade-up fade-up-delay-1">
+        <div class="step-num">02</div>
+        <div class="step-icon">&#9729;&#65039;</div>
+        <h3 class="step-title">Upload Your Image</h3>
+        <p class="step-desc">PixelSense issues a time-limited presigned S3 URL. Your image travels directly to secure cloud storage &mdash; our servers never touch the raw bytes.</p>
+      </div>
+      <div class="step-card fade-up fade-up-delay-2">
+        <div class="step-num">03</div>
+        <div class="step-icon">&#129302;</div>
+        <h3 class="step-title">AI Analysis Fires</h3>
+        <p class="step-desc">An SQS-triggered Lambda calls Rekognition for object detection, face analysis, celebrity recognition &amp; OCR, then Bedrock synthesizes a plain-language summary.</p>
+      </div>
+      <div class="step-card fade-up fade-up-delay-3">
+        <div class="step-num">04</div>
+        <div class="step-icon">&#128202;</div>
+        <h3 class="step-title">View Your Results</h3>
+        <p class="step-desc">Results land in DynamoDB keyed to your user. The app polls until complete, then displays your full analysis history &mdash; always yours, always private.</p>
+      </div>
+    </div>
+    <div class="arch-flow" style="margin-top:40px" role="img" aria-label="Architecture flow diagram">
+      <span class="arch-node">Browser</span><span class="arch-arrow">&#8594;</span>
+      <span class="arch-node active">Cognito JWT</span><span class="arch-arrow">&#8594;</span>
+      <span class="arch-node">API Gateway</span><span class="arch-arrow">&#8594;</span>
+      <span class="arch-node active">Lambda</span><span class="arch-arrow">&#8594;</span>
+      <span class="arch-node">S3 Upload</span><span class="arch-arrow">&#8594;</span>
+      <span class="arch-node active">SQS Event</span><span class="arch-arrow">&#8594;</span>
+      <span class="arch-node active">Rekognition</span><span class="arch-arrow">+</span>
+      <span class="arch-node active">Bedrock AI</span><span class="arch-arrow">&#8594;</span>
+      <span class="arch-node">DynamoDB</span>
+    </div>
+  </section>
+
+  <!-- FEATURES -->
+  <section class="features-section" id="features" aria-label="Features">
+    <div class="section-label">Capabilities</div>
+    <h2 class="section-title">Four AI engines.<br/><span class="accent">One platform.</span></h2>
+    <p class="section-sub">Every image you upload runs through four distinct AI pipelines, returning structured JSON data plus a human-readable summary.</p>
+    <div class="features-grid">
+      <article class="feature-card fade-up">
+        <div class="feature-icon-wrap icon-red">&#127991;&#65039;</div>
+        <h3 class="feature-title">Object Detection</h3>
+        <p class="feature-desc">Rekognition DetectLabels identifies thousands of objects, scenes, and concepts with confidence scores. Get structured label hierarchies in milliseconds.</p>
+      </article>
+      <article class="feature-card fade-up fade-up-delay-1">
+        <div class="feature-icon-wrap icon-orange">&#128100;</div>
+        <h3 class="feature-title">Face &amp; Celebrity Recognition</h3>
+        <p class="feature-desc">Detect faces, estimate attributes (age range, emotion, eyewear), and identify public figures via RecognizeCelebrities &mdash; all in a single pass.</p>
+      </article>
+      <article class="feature-card fade-up fade-up-delay-2">
+        <div class="feature-icon-wrap icon-pink">&#128221;</div>
+        <h3 class="feature-title">OCR Text Extraction</h3>
+        <p class="feature-desc">DetectText surfaces printed and handwritten text from signs, receipts, documents, and product labels &mdash; returning bounding boxes and confidence scores.</p>
+      </article>
+      <article class="feature-card wide fade-up" style="grid-column:span 2">
+        <div>
+          <div class="feature-icon-wrap icon-blue">&#10024;</div>
+          <h3 class="feature-title">Bedrock AI Summary</h3>
+          <p class="feature-desc">All Rekognition outputs are fed as structured JSON context to Amazon Bedrock, which generates a concise 2-4 sentence plain-language description of your image. Perfect for accessibility, content tagging, and search indexing.</p>
+          <div class="arch-flow" style="margin-top:20px;flex-wrap:wrap">
+            <span class="arch-node active">Rekognition JSON</span>
+            <span class="arch-arrow">&#8594;</span>
+            <span class="arch-node active">Bedrock Prompt</span>
+            <span class="arch-arrow">&#8594;</span>
+            <span class="arch-node">Plain English Summary</span>
+          </div>
+        </div>
+        <div class="feature-visual">
+          <div style="padding:24px;height:100%;display:flex;flex-direction:column;justify-content:center;gap:10px;position:relative;z-index:1">
+            <div style="font-size:10px;color:#E8352A;font-weight:700;text-transform:uppercase;letter-spacing:0.08em">Sample AI Output</div>
+            <div style="font-size:14px;color:rgba(255,255,255,0.8);line-height:1.55;font-style:italic">"A sun-lit mountain trail with two hikers approaching a turquoise glacial lake. Conifer forest borders the scene. A wooden signpost reads Summit &mdash; 2.4 km."</div>
+            <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:4px">
+              <span style="padding:3px 9px;background:rgba(232,53,42,0.15);border:1px solid rgba(232,53,42,0.3);border-radius:6px;font-size:10px;color:#F03B30;font-weight:600">Mountain</span>
+              <span style="padding:3px 9px;background:rgba(52,152,219,0.12);border:1px solid rgba(52,152,219,0.25);border-radius:6px;font-size:10px;color:#3498db;font-weight:600">Person x2</span>
+              <span style="padding:3px 9px;background:rgba(39,174,96,0.12);border:1px solid rgba(39,174,96,0.25);border-radius:6px;font-size:10px;color:#27ae60;font-weight:600">Forest</span>
+              <span style="padding:3px 9px;background:rgba(243,156,18,0.12);border:1px solid rgba(243,156,18,0.25);border-radius:6px;font-size:10px;color:#f39c12;font-weight:600">OCR: Text</span>
+            </div>
+          </div>
+        </div>
+      </article>
+      <article class="feature-card fade-up">
+        <div class="feature-icon-wrap icon-green">&#128260;</div>
+        <h3 class="feature-title">Resilient by Design</h3>
+        <p class="feature-desc">SQS decouples uploads from processing. DLQ catches failures after 3 retries. CloudWatch alarms alert on DLQ depth. Your images are never lost.</p>
+      </article>
+      <article class="feature-card fade-up fade-up-delay-1">
+        <div class="feature-icon-wrap icon-amber">&#128737;&#65039;</div>
+        <h3 class="feature-title">Zero-Trust Security</h3>
+        <p class="feature-desc">Presigned S3 URLs expire in 5 minutes. All API routes require a valid Cognito JWT. Lambda IAM roles follow least-privilege. Throttling caps cost exposure.</p>
+      </article>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-section" id="get-started" aria-label="Get started">
+    <div class="cta-inner">
+      <div class="cta-badge">&#128640; Now Available</div>
+      <h2 class="cta-title">Start analyzing images<br/><span class="accent">with AI today.</span></h2>
+      <p class="cta-sub">Upload your first image free. No credit card required. Powered by serverless AWS infrastructure that scales to zero when you don&rsquo;t need it.</p>
+      <div class="cta-buttons">
+        <a href="#" class="btn-pill btn-red btn-lg" id="cta-get-started">Get Started Free &#8594;</a>
+        <a href="#how-it-works" class="btn-pill btn-ghost btn-lg">See How It Works</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer id="about" role="contentinfo">
+    <div class="footer-inner">
+      <div>
+        <div style="display:flex;align-items:center;gap:10px">
+          <div class="nav-logo-mark" style="width:28px;height:28px;font-size:13px">PS</div>
+          <span class="nav-logo-text" style="font-size:16px">Pixel<span>Sense</span></span>
+        </div>
+        <p class="footer-copy" style="margin-top:8px">Cloud-based AI image intelligence platform.<br/>Built on AWS serverless infrastructure.</p>
+      </div>
+      <nav aria-label="Footer navigation">
+        <ul class="footer-links">
+          <li><a href="#how-it-works">How It Works</a></li>
+          <li><a href="#features">Features</a></li>
+          <li><a href="#">Privacy</a></li>
+          <li><a href="#">Terms</a></li>
+          <li><a href="#">GitHub</a></li>
+        </ul>
+      </nav>
+      <p class="footer-copy">&copy; 2026 PixelSense. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script>
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      navbar.classList.toggle('scrolled', window.scrollY > 40);
+    }, { passive: true });
+    const fadeEls = document.querySelectorAll('.fade-up');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    fadeEls.forEach(el => observer.observe(el));
+    const heroGlow = document.querySelector('.hero-glow');
+    if (heroGlow) {
+      window.addEventListener('mousemove', (e) => {
+        const xPct = (e.clientX / window.innerWidth - 0.5) * 18;
+        const yPct = (e.clientY / window.innerHeight - 0.5) * 12;
+        heroGlow.style.transform = `translate(calc(-50% + ${xPct}px), calc(-50% + ${yPct}px)) rotate(-15deg)`;
+      }, { passive: true });
+    }
+  </script>
+</body>
+</html>
